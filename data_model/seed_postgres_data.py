@@ -127,31 +127,24 @@ def populate_rides_table():
 
 
 def populate_ride_requests_table():
-    create_users_table = """
+    create_ride_requests_table = """
             CREATE TABLE ride_requests (
                     request_id VARCHAR(50) PRIMARY KEY,
                     userid VARCHAR(50) REFERENCES users(userid),
                     request_time VARCHAR(30),
-                    riders INTEGER
-            );
+                    riders INTEGER,
+                    city VARCHAR(50) ,
+                    destination VARCHAR(50));
     """
-    cur.execute(create_users_table)
+    cur.execute(create_ride_requests_table)
     conn.commit()
-    #USERS_CSV_FILE = 'data/ride_requests/ride_requests.csv'
-    #insert_into_users_table = """INSERT INTO ride_requests(request_id, userid, request_time, riders) VALUES(%s,%s,%s, %s);"""
-    #with open(USERS_CSV_FILE, newline='') as csvfile:
-    #    reader = csv.DictReader(csvfile)
-    #    for row in reader:
-    #        cur.execute(insert_into_users_table, [row['request_id'], row['userid'], row["request_time"], row['riders']])
-    #conn.commit()
-
 
 if __name__ =='__main__':
     conn = psycopg2.connect(host="localhost", port="5432", user="postgres", password="postgres", database="postgresdb")
     cur = conn.cursor()
 
-    populate_drivers_table()
-    populate_users_table()
+    # populate_drivers_table()
+    # populate_users_table()
     populate_ride_requests_table()
     # populate_rides_table()
     # create_sessions_table()

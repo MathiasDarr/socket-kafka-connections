@@ -1,6 +1,7 @@
 package org.mddarr.socket.service;
 
 import org.apache.kafka.streams.kstream.KStream;
+
 import org.mddarr.rides.event.dto.AvroRide;
 import org.mddarr.rides.event.dto.AvroRideRequest;
 import org.mddarr.socket.service.model.CoordinatesResponse;
@@ -57,7 +58,6 @@ public class SocketServiceApplication {
 				RideRequestResponse rideRequestResponse = new RideRequestResponse();
 				template.convertAndSend("/topic/rides/requests/alert", rideRequestResponse);
 			});
-
 		};
 	}
 

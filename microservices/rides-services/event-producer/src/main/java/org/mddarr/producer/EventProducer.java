@@ -1,5 +1,6 @@
 package org.mddarr.producer;
 
+import org.mddarr.producer.kafka.generictemplate.KafkaGenericTemplate;
 import org.mddarr.producer.models.Driver;
 import org.mddarr.producer.models.DrivingSession;
 import org.mddarr.producer.models.RideRequestSession;
@@ -27,10 +28,32 @@ import java.util.*;
 public class EventProducer {
 
     public static void main(String[] args) throws Exception {
-//        populateRides();
+        populateRides();
         populateRideRequests();
 
     }
+
+    public static void populateRideRequests() throws Exception {
+
+        KafkaGenericTemplate<AvroRideRequest> kafkaGenericTemplate = new KafkaGenericTemplate<>();
+        KafkaTemplate<String, AvroRideRequest> rideRequestKafkaTemplate = kafkaGenericTemplate.getKafkaTemplate();
+        rideRequestKafkaTemplate.setDefaultTopic(Constants.RIDE_REQUEST_TOPIC);
+        AvroRideRequest rideRequest = new AvroRideRequest("requestid1", "user1", 3, "Seattle","Ballard");
+        rideRequestKafkaTemplate.sendDefault(rideRequest);
+        System.out.println("Writing ride request for '" + rideRequest.getRequestId() + "' to input topic " + Constants.RIDE_REQUEST_TOPIC);
+    }
+
+    public static void populateRides() throws Exception{
+        KafkaGenericTemplate<AvroRide> kafkaGenericTemplate = new KafkaGenericTemplate<AvroRide>();
+        KafkaTemplate<String, AvroRide> rideRequestKafkaTemplate = kafkaGenericTemplate.getKafkaTemplate();
+        rideRequestKafkaTemplate.setDefaultTopic(Constants.RIDES_TOPIC);
+
+        AvroRide avroRide = new AvroRide("ride1","user1","driver1");
+        rideRequestKafkaTemplate.sendDefault(avroRide);
+        System.out.println("SENT " + avroRide);
+
+    }
+
 
     public static void populate_drivers() throws InterruptedException {
         final Map<String, String> serdeConfig = Collections.singletonMap(
@@ -104,16 +127,7 @@ public class EventProducer {
     }
 
 
-    public static void populateRides() throws Exception{
-        KafkaGenericTemplate<AvroRide> kafkaGenericTemplate = new KafkaGenericTemplate<AvroRide>();
-        KafkaTemplate<String, AvroRide> rideRequestKafkaTemplate = kafkaGenericTemplate.getKafkaTemplate();
-        rideRequestKafkaTemplate.setDefaultTopic(Constants.RIDES_TOPIC);
 
-        AvroRide avroRide = new AvroRide("ride1","user1","driver1");
-        rideRequestKafkaTemplate.sendDefault(avroRide);
-        System.out.println("SENT " + avroRide);
-
-    }
 
 
     public static void populate_user_ride_requests() throws InterruptedException {
@@ -152,21 +166,6 @@ public class EventProducer {
             iteration += 1;
             Thread.sleep(200);
         }
-    }
-
-    public static void populateRideRequests() throws Exception {
-
-        KafkaGenericTemplate<AvroRideRequest> kafkaGenericTemplate = new KafkaGenericTemplate<>();
-        KafkaTemplate<String, AvroRideRequest> rideRequestKafkaTemplate = kafkaGenericTemplate.getKafkaTemplate();
-        rideRequestKafkaTemplate.setDefaultTopic(Constants.RIDE_REQUEST_TOPIC);
-
-
-        AvroRideRequest rideRequest = new AvroRideRequest("requestid1", "user1", 3);
-        rideRequestKafkaTemplate.sendDefault(rideRequest);
-
-        System.out.println("Writing ride request for '" + rideRequest.getRequestId() + "' to input topic " + Constants.RIDE_REQUEST_TOPIC);
-
-
     }
 
 
