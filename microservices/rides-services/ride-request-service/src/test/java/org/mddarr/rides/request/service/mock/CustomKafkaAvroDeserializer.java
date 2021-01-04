@@ -1,5 +1,6 @@
 package org.mddarr.rides.request.service.mock;
 
+import org.mddarr.rides.event.dto.AvroDriver;
 import org.mddarr.rides.request.service.Constants;
 
 import io.confluent.kafka.schemaregistry.client.MockSchemaRegistryClient;
@@ -20,8 +21,8 @@ public class CustomKafkaAvroDeserializer extends KafkaAvroDeserializer {
             this.schemaRegistry = getMockClient(AvroRideRequest.SCHEMA$);
         }
 
-        if (topic.equals(Constants.EVENT_3_TOPIC)) {
-            this.schemaRegistry = getMockClient(Event3.SCHEMA$);
+        if (topic.equals(Constants.DRIVERS_TOPIC)) {
+            this.schemaRegistry = getMockClient(AvroDriver.SCHEMA$);
         }
 
         return super.deserialize(topic, bytes);

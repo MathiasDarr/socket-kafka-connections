@@ -67,7 +67,7 @@ public abstract class UatAbstractTest {
 
 
         rideRequestConsumer.subscribe(Lists.newArrayList(Constants.RIDE_REQUEST_TOPIC));
-
+        avroDriverConsumer.subscribe(Lists.newArrayList(Constants.DRIVERS_TOPIC));
     }
 
     @After
