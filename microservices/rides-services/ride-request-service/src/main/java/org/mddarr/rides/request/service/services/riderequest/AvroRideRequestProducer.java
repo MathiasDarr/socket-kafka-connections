@@ -16,7 +16,7 @@ import java.util.UUID;
 public class AvroRideRequestProducer implements AvroRideRequestInterface{
 
     @Autowired
-    private KafkaTemplate<String, AvroRideRequest> kafkaTemplateEvent1;
+    private KafkaTemplate<String, AvroRideRequest> rideRequestKafkaTemplate;
 
     private static final Logger logger = LoggerFactory.getLogger(AvroRideRequestProducer.class);
 
@@ -27,10 +27,11 @@ public class AvroRideRequestProducer implements AvroRideRequestInterface{
                 .setRequestId(request_id)
                 .setUserId(rideRequest.getUserid())
                 .setDestination(rideRequest.getDestination())
-                .setCity(rideRequest.getCity())
                 .setRiders(rideRequest.getRiders()).build();
         logger.info("Send event 1 {}", ride);
-        kafkaTemplateEvent1.send(Constants.RIDE_REQUEST_TOPIC, ride);
+        rideRequestKafkaTemplate.setDefaultTopic(Constants.RIDE_REQUEST_TOPIC);
+
+        rideRequestKafkaTemplate.sendDefault(rideRequest.getCity(), ride);
         return request_id;
     }
 

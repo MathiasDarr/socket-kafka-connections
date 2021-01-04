@@ -46,8 +46,6 @@ public abstract class UatAbstractTest {
     public void setUp() {
         Map<String, Object> senderProps = kafkaProperties.buildProducerProperties();
 
-
-
         //consumers used in test code needs to be created like this in code because otherwise it won't work
         Map<String, Object> configs = new HashMap<>(KafkaTestUtils.consumerProps("in-test-consumer", "false", kafkaEmbedded));
         configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);
@@ -55,8 +53,6 @@ public abstract class UatAbstractTest {
         configs.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         configs.put("schema.registry.url", "not-used");
-
-
 
         rideRequestConsumer = new DefaultKafkaConsumerFactory<String, AvroRideRequest>(configs).createConsumer("in-test-consumer", "10");
 
