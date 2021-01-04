@@ -4,6 +4,7 @@ public class RideRequest {
 	private String userid;
 	private String destination;
 	private int riders;
+	private String city;
 
 	public String getUserid() {
 		return userid;
@@ -27,5 +28,13 @@ public class RideRequest {
 
 	public void setRiders(int riders) {
 		this.riders = riders;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 }

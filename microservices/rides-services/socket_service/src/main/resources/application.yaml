@@ -2,14 +2,14 @@ server.port: 8080
 
 spring.cloud.stream:
   function:
-    definition: process_rides;process_ride_requests;
+    definition: process_rides;
 
 spring.cloud.stream.bindings.process_rides-in-0:
   destination: rides
 
-spring.cloud.stream.bindings.process_ride_requests-in-0:
-  destination: ride-requests
-
+#spring.cloud.stream.bindings.process_ride_requests-in-0:
+#  destination: ride-requests
+#
 
 
 spring.cloud.stream.kafka.streams.binder:

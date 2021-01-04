@@ -4,7 +4,7 @@
       
       <v-row>
         <v-col cols="3" sm="3">
-          <v-btn color="primary" v-on:click="ride_matching_socket_connect()">
+          <v-btn color="primary" v-on:click="establish_connection()">
             Connect
           </v-btn>
         </v-col>
@@ -16,39 +16,13 @@
         </v-col>
 
         <v-col class="d-flex" cols="3"  sm="3">
-          <v-btn color="primary" v-on:click="connect()">
+          <v-btn color="primary" v-on:click="disconnect()">
             Disconnect
           </v-btn>
         </v-col>
       </v-row>
 
     </v-card>
-
-      <div class="row">
-        <div class="col-md-6">
-          <form class="form-inline">
-            <div class="form-group">
-              <label for="connect">WebSocket connection:</label>
-              
-              <button
-                id="connect"
-                class="btn btn-default"
-                type="submit"
-                :disabled="connected == true"
-                @click.prevent="connect">Connect</button>
-              <button
-                id="disconnect"
-                class="btn btn-default"
-                type="submit"
-                :disabled="connected == false"
-                @click.prevent="disconnect"
-              >Disconnect
-              </button>
-            </div>
-          </form>
-        </div>
-        </div>
-
 
         <v-card  tile flat>
           <div>
@@ -87,6 +61,8 @@ import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import RideRequest from './RideRequest'
 import { mapGetters, mapActions } from "vuex";
+import axios from 'axios';
+
 
 export default {
 
@@ -108,6 +84,35 @@ export default {
         this.stompClient.send("/app/rides/requests", request_body, {});
       }
     },
+
+    async establish_connection(){
+            try{
+                //var url = window.__runtime_configuration.apiEndpoint + '/categories'
+                var url ='http://localhost:8080/rides/requests'
+                const response = await axios.put(url, {userid:'jerryjones', riders:2, destination:"San Juan", city:"San Fransansico"})                        
+                
+                this.setRequestID(response.data)     
+                return true;
+            }catch(err){
+                console.log(err)
+                return false;
+            }
+        },
+
+    async await_connection(){
+        if(await this.establish_connection()){
+          this.ride_matching_socket_connect()  
+        }
+        else{
+          console.log("UNABLE TO PLACE RIDE REQUEST")
+        }
+        
+    },
+
+
+
+
+
 
     ride_matching_socket_connect(){
       this.socket = new SockJS("http://localhost:8080/ride-request-websocket");
