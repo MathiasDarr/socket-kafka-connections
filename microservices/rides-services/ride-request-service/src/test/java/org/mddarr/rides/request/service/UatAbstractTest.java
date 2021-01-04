@@ -1,6 +1,7 @@
 package org.mddarr.rides.request.service;
 
 
+import org.mddarr.rides.event.dto.AvroDriver;
 import org.mddarr.rides.request.service.mock.CustomKafkaAvroDeserializer;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -35,18 +36,17 @@ public abstract class UatAbstractTest {
     private KafkaProperties kafkaProperties;
     @Autowired
     private EmbeddedKafkaBroker kafkaEmbedded;
-    protected Producer<String, Event3> event3Producer;
-    protected Consumer<String, Event3> event3Consumer;
-    protected Consumer<String, AvroRideRequest> event1Consumer;
 
+    protected Consumer<String, AvroRideRequest> rideRequestConsumer;
 
+    protected Consumer<String, AvroDriver> avroDriverConsumer;
 
 
     @Before
     public void setUp() {
         Map<String, Object> senderProps = kafkaProperties.buildProducerProperties();
 
-        event3Producer = new KafkaProducer<>(senderProps);
+
 
         //consumers used in test code needs to be created like this in code because otherwise it won't work
         Map<String, Object> configs = new HashMap<>(KafkaTestUtils.consumerProps("in-test-consumer", "false", kafkaEmbedded));
@@ -56,23 +56,27 @@ public abstract class UatAbstractTest {
         configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         configs.put("schema.registry.url", "not-used");
 
-        event3Consumer = new DefaultKafkaConsumerFactory<String, Event3>(configs).createConsumer("in-test-consumer", "10");
 
-        event1Consumer = new DefaultKafkaConsumerFactory<String, AvroRideRequest>(configs).createConsumer("in-test-consumer", "10");
+
+        rideRequestConsumer = new DefaultKafkaConsumerFactory<String, AvroRideRequest>(configs).createConsumer("in-test-consumer", "10");
+
+        avroDriverConsumer = new DefaultKafkaConsumerFactory<String, AvroDriver>(configs).createConsumer("in-test-consumer", "10");
+
 
         kafkaProperties.buildConsumerProperties();
-        event3Consumer.subscribe(Lists.newArrayList(Constants.EVENT_3_TOPIC));
 
-        event1Consumer.subscribe(Lists.newArrayList(Constants.RIDE_REQUEST_TOPIC));
+
+        rideRequestConsumer.subscribe(Lists.newArrayList(Constants.RIDE_REQUEST_TOPIC));
 
     }
 
     @After
     public void reset() {
         //consumers needs to be closed because new one are created before every test
-        event3Consumer.close();
 
-        event1Consumer.close();
+
+        rideRequestConsumer.close();
+        avroDriverConsumer.close();
 
     }
 

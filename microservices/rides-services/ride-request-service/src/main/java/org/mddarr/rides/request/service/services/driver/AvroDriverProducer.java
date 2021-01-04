@@ -27,7 +27,9 @@ public class AvroDriverProducer implements AvroDriverProducerInterface{
                 .setLastname(driverRequest.getDriver_last_name())
                 .setDriverid(driverRequest.getDriverid())
                 .build();
-        kafkaDriverTemplate.send(Constants.DRIVERS_TOPIC, avroDriver);
+        kafkaDriverTemplate.setDefaultTopic(Constants.DRIVERS_TOPIC);
+        kafkaDriverTemplate.sendDefault("Seattle", avroDriver);
+//        kafkaDriverTemplate.send(Constants.DRIVERS_TOPIC, avroDriver);
         return driverRequest.getDriverid();
     }
 }
