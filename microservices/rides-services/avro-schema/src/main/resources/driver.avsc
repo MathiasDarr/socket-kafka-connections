@@ -4,7 +4,7 @@
 [
 {"namespace": "org.mddarr.orders.event.dto",
  "type": "enum",
- "name": "OrderState",
+ "name": "DriverState",
  "symbols" : ["INACTIVE", "ASSIGNED_RIDE", "COMPLETING_RIDE", "ACTIVE"]
 },
 

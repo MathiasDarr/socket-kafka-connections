@@ -19,13 +19,13 @@
     <modules>
 <!--        <module>ride-dispatch-service</module>-->
 <!--        <module>stomp-sockets</module>-->
-        <module>socket_service</module>
-        <module>event-producer</module>
-        <module>ride-request-service</module>
-<!--        <module>dispatch-service</module>-->
-<!--        <module>drivers-service</module>-->
-<!--        <module>ride-request-service</module>-->
+<!--        <module>socket_service</module>-->
+<!--        <module>event-producer</module>-->
+<!--        <module>socket-dispatch-service</module>-->
 
+<!--        <module>drivers-service</module>-->
+        <module>ride-request-service</module>
+        <module>dispatch-service</module>
         <module>avro-schema</module>
     </modules>
     <repositories>

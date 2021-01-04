@@ -9,7 +9,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.Test;
 
 
-import org.mddarr.rides.request.service.services.riderequest.AvroRideRequestProducer;
+import org.mddarr.rides.request.service.services.AvroRideRequestProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 
