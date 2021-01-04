@@ -63,7 +63,7 @@ public abstract class UatAbstractTest {
         kafkaProperties.buildConsumerProperties();
         event3Consumer.subscribe(Lists.newArrayList(Constants.EVENT_3_TOPIC));
 
-        event1Consumer.subscribe(Lists.newArrayList(Constants.Rides_TOPIC));
+        event1Consumer.subscribe(Lists.newArrayList(Constants.RIDE_REQUEST_TOPIC));
 
     }
 

@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 9090
 
 kafka:
   bootstrap-servers: ${spring.embedded.kafka.brokers}

@@ -26,9 +26,11 @@ public class AvroRideRequestProducer implements AvroRideRequestInterface{
         AvroRideRequest ride = AvroRideRequest.newBuilder()
                 .setRequestId(request_id)
                 .setUserId(rideRequest.getUserid())
+                .setDestination(rideRequest.getDestination())
+                .setCity(rideRequest.getCity())
                 .setRiders(rideRequest.getRiders()).build();
         logger.info("Send event 1 {}", ride);
-        kafkaTemplateEvent1.send(Constants.Rides_TOPIC, ride);
+        kafkaTemplateEvent1.send(Constants.RIDE_REQUEST_TOPIC, ride);
         return request_id;
     }
 
