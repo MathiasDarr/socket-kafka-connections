@@ -60,8 +60,6 @@
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
 
-
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream</artifactId>
@@ -69,8 +67,6 @@
 			<classifier>test-binder</classifier>
 			<type>test-jar</type>
 		</dependency>
-
-
 
 
 		<!-- SPRING KAFKA CLOUD 		-->
@@ -142,9 +138,6 @@
 		<!-- TEST DEPENDENCIES		-->
 
 
-
-
-
 		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro-compiler</artifactId>
@@ -206,8 +199,6 @@
 
 
 		<!-- TEST -->
-
-
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka-test</artifactId>
@@ -221,16 +212,12 @@
 			<optional>true</optional>
 		</dependency>
 
-
-
 		<!-- TEST -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-
 
 
 	</dependencies>

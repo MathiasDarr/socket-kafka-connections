@@ -101,7 +101,7 @@ export default {
 
     async await_connection(){
         if(await this.establish_connection()){
-          this.ride_matching_socket_connect()  
+          // this.ride_matching_socket_connect()  
         }
         else{
           console.log("UNABLE TO PLACE RIDE REQUEST")

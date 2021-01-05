@@ -18,7 +18,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 		config.setApplicationDestinationPrefixes("/app");
 
 	}
-
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ride-request-websocket")
@@ -29,6 +28,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 				.setAllowedOrigins("http://localhost:8090")
 				.withSockJS();
 	}
-
 
 }

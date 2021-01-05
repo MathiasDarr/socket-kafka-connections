@@ -13,8 +13,7 @@
      {"name": "firstname",  "type": "string"},
      {"name": "lastname",  "type": "string"},
      {"name": "seats",  "type": "int"},
-
-      {"name": "state",  "type": "AvroDriverState"}
+     {"name": "state",  "type": "AvroDriverState"}
 
 
  ]

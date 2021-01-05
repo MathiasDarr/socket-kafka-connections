@@ -17,11 +17,9 @@
     <version>1.0-SNAPSHOT</version>
     
     <modules>
-<!--        <module>ride-dispatch-service</module>-->
-<!--        <module>stomp-sockets</module>-->
-<!--        <module>socket_service</module>-->
 
-<!--        <module>drivers-service</module>-->
+<!--        <module>stomp-sockets</module>-->
+        <module>socket_service</module>
         <module>event-producer</module>
         <module>ride-request-service</module>
         <module>dispatch-service</module>
