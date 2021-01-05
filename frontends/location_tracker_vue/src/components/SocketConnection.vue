@@ -4,7 +4,7 @@
       
       <v-row>
         <v-col cols="3" sm="3">
-          <v-btn color="primary" v-on:click="establish_connection()">
+          <v-btn color="primary" v-on:click="await_connection()">
             Connect
           </v-btn>
         </v-col>
@@ -65,57 +65,50 @@ import axios from 'axios';
 
 
 export default {
-
+  computed:{
+    ...mapGetters(["getRequestID"])
+  },
   methods: {
 
-    ...mapActions(["addRequest"]),
+    ...mapActions(["addRequest", "setRequestID"]),
 
     send() {
       console.log("Send message:" + this.send_message);
       if (this.stompClient && this.stompClient.connected) {
         // const coordinates = {lat:12.1, lng:39.1}
         // JSON.stringify(coordinates)
-        var request = {userid:"charles",riders:2,destination:"church" }
-        
+        var request = {userid:"charles",riders:2,destination:"church" } 
         // var request = {content:"hi", sender:"dfa"}
-        
-        var request = {userid:"charles",riders:2,destination:"church" }
         var request_body = JSON.stringify(request)
         this.stompClient.send("/app/rides/requests", request_body, {});
       }
     },
 
     async establish_connection(){
-            try{
-                //var url = window.__runtime_configuration.apiEndpoint + '/categories'
-                var url ='http://localhost:8080/rides/requests'
-                const response = await axios.put(url, {userid:'jerryjones', riders:2, destination:"San Juan", city:"San Fransansico"})                        
-                
-                this.setRequestID(response.data)     
-                return true;
-            }catch(err){
-                console.log(err)
-                return false;
-            }
-        },
+      try{
+          var url ='http://localhost:8093/rides/requests'
+          const response = await axios.put(url, {userid:'jerryjones', riders:2, destination:"San Juan", city:"San Fransansico"})                        
+          var requestid = response.data
+          console.log(response.data)                
+          this.setRequestID(requestid)
+          return true;
+        }catch(err){
+          console.log(err)
+          return false;
+        }
+      },
 
     async await_connection(){
         if(await this.establish_connection()){
-          // this.ride_matching_socket_connect()  
+          this.ride_matching_socket_connect()  
         }
         else{
           console.log("UNABLE TO PLACE RIDE REQUEST")
         }
-        
     },
 
-
-
-
-
-
     ride_matching_socket_connect(){
-      this.socket = new SockJS("http://localhost:8080/ride-request-websocket");
+      this.socket = new SockJS("http://localhost:8094/ride-request-websocket");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
         {},

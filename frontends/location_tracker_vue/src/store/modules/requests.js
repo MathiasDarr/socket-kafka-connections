@@ -7,16 +7,22 @@ const state = {
     nriders:'',
     requests: [{rideid:"ride1",user_name:"charles", driver_name:"edward", riders: 3, destination: "131 3rd Ave"}],
     rides:[],
+    requestid:''
 
 };
 
 const getters = {
     getRideRequests: state => state.requests,
+    getRequestID: state => state.requestid
 
   };
 
 const actions = {
     
+    async setRequestID({commit}, requestid){
+        commit('setRequestID', requestid)
+      },
+
     async addRequest({commit}, request){
         commit('addRideRequest', request)
       },
@@ -25,6 +31,7 @@ const actions = {
 
 const mutations = {
     addRideRequest: (state, request) => (state.requests.push(request)),
+    setRequestID: (state, request) => (state.requestid = request)
 };
 
 export default {
