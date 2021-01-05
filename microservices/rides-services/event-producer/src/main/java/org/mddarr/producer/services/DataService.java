@@ -113,7 +113,7 @@ public class DataService {
              PreparedStatement pst = con.prepareStatement("SELECT request_id, userid,riders, city, destination FROM ride_requests");
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
-                avroRideRequests.add(new AvroRideRequest (rs.getString(1),rs.getString(2),rs.getInt(3), rs.getString(4), rs.getString(5) ));
+                avroRideRequests.add(new AvroRideRequest (rs.getString(1),rs.getString(2),rs.getInt(3), rs.getString(4) ));
             }
         } catch (SQLException e) {
             System.err.println(e.getClass().getName()+": "+e.getMessage());

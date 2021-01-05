@@ -1,0 +1,17 @@
+[
+{"namespace": "org.mddarr.orders.event.dto",
+ "type": "enum",
+ "name": "UserState",
+ "symbols" : ["INACTIVE", "INRIDE","MATCHING","MATCHED"]
+},
+
+{"namespace" : "org.mddarr.rides.event.dto",
+ "type": "record",
+ "name": "AvroUser",
+ "fields": [
+     {"name": "userid", "type": "string"},
+     {"name": "firstname",  "type": "string"},
+     {"name": "lastname",  "type": "string"}
+ ]
+}
+]

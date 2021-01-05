@@ -19,7 +19,15 @@ public class DriverRequestController {
 
     @PutMapping("drivers/activate")
     @CrossOrigin(origins = "http://localhost:8090")
-    public String postRideRequest(@RequestBody DriverRequest driverRequest){
+    public String activateDriverRequest(@RequestBody DriverRequest driverRequest){
         return avroDriverProducer.activateDriver(driverRequest);
     }
+
+    @PutMapping("drivers/deactivate")
+    @CrossOrigin(origins = "http://localhost:8090")
+    public String deactivateDriverRequest(@RequestBody DriverRequest driverRequest){
+        return avroDriverProducer.deactivateDriver(driverRequest);
+    }
+
+
 }
