@@ -5,20 +5,17 @@ The methods in this file simulate running of the system.
 
 package org.mddarr.producer;
 
-import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
-import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.mddarr.producer.kafka.generictemplate.KafkaGenericTemplate;
 import org.mddarr.producer.models.Driver;
 import org.mddarr.producer.models.DrivingSession;
 import org.mddarr.producer.models.RideRequestSession;
 import org.mddarr.producer.models.User;
+import org.mddarr.producer.repositories.DriverRepository;
+import org.mddarr.producer.repositories.DriverSessionRepository;
 import org.mddarr.producer.repositories.UserRepository;
-import org.mddarr.producer.services.DataService;
+
 import org.mddarr.rides.event.dto.AvroDriver;
 import org.mddarr.rides.event.dto.AvroRide;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.*;
@@ -68,7 +65,7 @@ public class SystemSimulation {
         KafkaTemplate<String, AvroDriver> driverRequestKafkaTemplate = kafkaGenericTemplate.getKafkaTemplate();
         driverRequestKafkaTemplate.setDefaultTopic(Constants.DRIVERS_TOPIC);
 
-        List<Driver> drivers = DataService.getDriversFromDB();
+        List<Driver> drivers = DriverRepository.getDriversFromDB();
         System.out.println(drivers);
 
         Random rand = new Random();
@@ -97,7 +94,7 @@ public class SystemSimulation {
                 if(session.verifySessionEnding(iteration)){
                     Driver driver = session.getDriver();
                     inactive_drivers.add(driver);
-                    DataService.insertSession( session.getSessionid() ,driver.getDriverid(), session.getSession_length(), session.getSession_start(), iteration);
+                    DriverSessionRepository.insertSession( session.getSessionid() ,driver.getDriverid(), session.getSession_length(), session.getSession_start(), iteration);
                     System.out.println("SESSION WITH DRIVER " + driver.getFirst_name() + " " + driver.getLast_name() + " HAS ENDED AT LENGTH " + session.getSession_length());
                     drivingSessionIterator.remove();
                     active_drivers.remove(driver);
@@ -109,7 +106,7 @@ public class SystemSimulation {
             for(Driver driver: activating_drivers){
                 inactive_drivers.remove(driver);
                 active_drivers.add(driver);
-//                String session_id = DataService.insertDrivingSession(driver.getDriverid(), driver.getAverage_shift_length());
+//                String session_id = DriverSessionRepository.insertDrivingSession(driver.getDriverid(), driver.getAverage_shift_length());
                 DrivingSession drivingSession = new DrivingSession(driver, UUID.randomUUID().toString(), iteration);
                 active_sessions.add(drivingSession);
             }

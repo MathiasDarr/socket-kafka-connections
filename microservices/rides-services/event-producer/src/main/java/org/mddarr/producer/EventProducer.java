@@ -7,16 +7,9 @@ import org.mddarr.producer.models.RideRequestSession;
 import org.mddarr.producer.models.User;
 import org.mddarr.producer.repositories.DriverRepository;
 import org.mddarr.producer.repositories.UserRepository;
-import org.mddarr.producer.services.DataService;
-
-import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
-import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringSerializer;
-
 
 import org.mddarr.rides.event.dto.*;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+
 import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.*;
@@ -37,8 +30,10 @@ public class EventProducer {
         KafkaTemplate<String, AvroRideRequest> rideRequestKafkaTemplate = kafkaGenericTemplate.getKafkaTemplate();
         rideRequestKafkaTemplate.setDefaultTopic(Constants.RIDE_REQUEST_TOPIC);
         AvroRideRequest rideRequest = new AvroRideRequest("requestid1", "user1", 3, "Ballard");
-        rideRequestKafkaTemplate.sendDefault(rideRequest);
-        System.out.println("Writing ride request for '" + rideRequest.getRequestId() + "' to input topic " + Constants.RIDE_REQUEST_TOPIC);
+        String city = "Seattle";
+
+        rideRequestKafkaTemplate.sendDefault(city, rideRequest);
+        System.out.println("Writing ride request for '" + rideRequest.getUserId() + "' in the city of " + city);
     }
 
     public static void populateRides() throws Exception{
@@ -75,14 +70,19 @@ public class EventProducer {
 
         KafkaGenericTemplate<AvroDriver> kafkaGenericTemplate = new KafkaGenericTemplate<>();
         KafkaTemplate<String, AvroDriver> driverKafkaTemplate = kafkaGenericTemplate.getKafkaTemplate();
-
         driverKafkaTemplate.setDefaultTopic(Constants.DRIVERS_TOPIC);
         List<Driver> drivers = DriverRepository.getDriversFromDB();
 
         drivers.forEach(driver -> {
             System.out.println("Writing driver for '" + driver.getFirst_name() + "' to input topic " +
                     Constants.DRIVERS_TOPIC);
-            driverKafkaTemplate.sendDefault(new AvroDriver(driver.getDriverid(), driver.getFirst_name(), driver.getLast_name(), AvroDriverState.ACTIVE));
+            AvroDriver avroDriver = AvroDriver.newBuilder()
+                    .setDriverid(driver.getDriverid())
+                    .setFirstname(driver.getFirst_name())
+                    .setLastname(driver.getLast_name())
+                    .setState(AvroDriverState.ACTIVE)
+                    .build();
+            driverKafkaTemplate.sendDefault(avroDriver);
         });
     }
 
