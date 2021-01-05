@@ -28,7 +28,7 @@ public class DriverRequestProducerTest extends UatAbstractTest {
     @Test
     public void should_send_driver_request() {
 
-        avroDriverProducer.activateDriver(new DriverRequest("driverid","Erik", "Ballard", "Seattle"));
+        avroDriverProducer.activateDriver(new DriverRequest("driverid","Erik", "Ballard", "Seattle", 2));
         ConsumerRecord<String, AvroDriver> singleRecord = KafkaTestUtils.getSingleRecord(avroDriverConsumer, Constants.DRIVERS_TOPIC);
         assertThat(singleRecord).isNotNull();
     }

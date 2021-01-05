@@ -12,6 +12,7 @@ public class DriverRequest {
     private String driver_first_name;
     private String driver_last_name;
     private String city;
+    private int seats;
 
     public String getDriverid() {
         return driverid;
@@ -43,5 +44,13 @@ public class DriverRequest {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public int getSeats() {
+        return seats;
+    }
+
+    public void setSeats(int seats) {
+        this.seats = seats;
     }
 }

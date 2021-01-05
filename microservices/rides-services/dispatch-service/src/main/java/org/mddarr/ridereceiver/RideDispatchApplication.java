@@ -25,34 +25,14 @@ public class RideDispatchApplication {
 	public static final int WINDOW_SIZE_MS = 30_000;
 
 
-//	@Bean
-//	public Function<KStream<String, AvroRideRequest>, KStream<String, AvroRideRequest>>  process_ride_requests() {
-//		return (rideRequestStream) -> {
-//			rideRequestStream.foreach((key, value) -> System.out.println("THE KEY IS AND THE VLAUE IS " + key + " " + value));
-//			return rideRequestStream;
-//
-//		};
-//	}
-//
-//	@Bean
-//	public Function<KStream<String, AvroDriver>, KStream<String, AvroDriver>>  process_drivers() {
-//		return (avroDriverKStream) -> {
-//			avroDriverKStream.foreach((key, value) -> System.out.println("THE KEY IS AND THE VLAUE IS " + key + " " + value));
-//			return avroDriverKStream;
-//
-//		};
-//	}
 
 	@Bean
 	public BiConsumer<KStream<String, AvroDriver>, KStream<String, AvroRideRequest>> join_ride_requests(){
 		return (avroDriverKStream, rideRequestKStream) -> {
 			avroDriverKStream.foreach((key, value) -> System.out.println("THE KEY OF THE DRIVER IS AND THE VLAUE IS " + key + " " + value));
 			rideRequestKStream.foreach((key, value) -> System.out.println("THE KEY AND THE VALUE OF THE RIDE REQUEST IS AND THE VLAUE IS " + key + " " + value));
-			
 
 		};
 	}
-
-
 
 }

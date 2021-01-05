@@ -27,6 +27,7 @@ public class AvroDriverProducer implements AvroDriverProducerInterface{
         AvroDriver avroDriver = AvroDriver.newBuilder()
                 .setFirstname(driverRequest.getDriver_first_name())
                 .setLastname(driverRequest.getDriver_last_name())
+                .setSeats(driverRequest.getSeats())
                 .setDriverid(driverRequest.getDriverid())
                 .setState(AvroDriverState.ACTIVE)
                 .build();
@@ -43,6 +44,7 @@ public class AvroDriverProducer implements AvroDriverProducerInterface{
                 .setFirstname(driverDeactivateRequest.getDriver_first_name())
                 .setLastname(driverDeactivateRequest.getDriver_last_name())
                 .setDriverid(driverDeactivateRequest.getDriverid())
+                .setSeats(driverDeactivateRequest.getSeats())
                 .setState(AvroDriverState.INACTIVE)
                 .build();
         kafkaDriverTemplate.setDefaultTopic(Constants.DRIVERS_TOPIC);
